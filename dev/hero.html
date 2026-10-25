@@ -1,0 +1,25 @@
+<!doctype html><meta charset=utf-8><link rel=stylesheet href=base.css><script src=base.js></script>
+<style>#s{padding:40px 24px 40px 2px}h1{font-size:34px;margin:0 0 8px;font-weight:700;letter-spacing:-.5px}p{font-size:20px;margin:0}</style>
+<div id=s><h1 id=a></h1><p id=b></p></div>
+<script>
+const NAME = "Lucas Aguilar";
+const Q = new URLSearchParams(location.search);
+const LINES = Q.get("lines") ? JSON.parse(Q.get("lines")) : [Q.get("l1") || "I build for the web, mostly in Rails.", "I ship with AI agents.", Q.get("l3") || "I review every line they write."];
+const HOLD = 1500, DEL = 60;
+window.END = 300 + 13/16*1000 + 300 + LINES.reduce((a, l) => a + l.length/22*1000 + 1500 + l.length/60*1000 + 200, 0) + 3000;
+window.render = t => {
+  const nameEnd = done(NAME, 300, 16);
+  a.innerHTML = esc(typed(NAME, 300, t, 16)) + (t < nameEnd ? cursor(t) : '');
+  let start = nameEnd + 300, html = '';
+  for (const [i, l] of LINES.entries()) {
+    const typedEnd = done(l, start, 22), last = i == LINES.length - 1;
+    const delStart = typedEnd + HOLD, delEnd = delStart + l.length * 1000 / DEL;
+    if (t < start) break;
+    if (t < typedEnd) { html = esc(typed(l, start, t, 22)); break; }
+    if (last || t < delStart) { html = esc(l); break; }
+    if (t < delEnd) { html = esc(l.slice(0, l.length - Math.floor((t - delStart) / 1000 * DEL))); break; }
+    start = delEnd + 200;
+  }
+  b.innerHTML = `<span class=dim>›</span> ${html}${cursor(t)}`;
+};
+</script>

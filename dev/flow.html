@@ -1,0 +1,29 @@
+<!doctype html><meta charset=utf-8><link rel=stylesheet href=base.css><script src=base.js></script>
+<style>
+.win{margin:2px 2px 2px 2px;border:1px solid var(--dim);border-radius:8px;overflow:hidden}
+.bar{padding:6px 12px;font-size:12px;color:var(--dim);border-bottom:1px solid var(--dim);opacity:.8}
+#s{padding:14px 16px;white-space:pre;font-size:15px;line-height:1.8}
+</style>
+<div class=win><div class=bar>agent session</div><div id=s></div></div>
+<script>
+// generic day, illustrative: ask, short reply, one concrete detail
+const STEPS = [
+  ["plan", "break the export feature into small PRs", "3 PRs: model, background job, UI", null],
+  ["build", "write the background job", "done", ["+ app/jobs/export_job.rb", "+ app/controllers/exports_controller.rb"]],
+  ["review", "check the diff against real data", "2 edge cases found, both fixed", null],
+  ["ship", "open the PR", "PR ready: 6 files, +214 -9", null],
+];
+const GAP = 450, REPLY = 600, DET = 300, HOLD = 6000;
+let t0 = 300; const S = STEPS.map(([k, ask, ans, det]) => { const a = t0, r = done(ask, a, 34) + REPLY; t0 = r + (det ? det.length * DET : 0) + GAP; return { k, ask, ans, det, a, r }; });
+window.END = t0 + HOLD;
+window.render = t => {
+  let h = '';
+  for (const x of S) {
+    if (t < x.a) break;
+    h += `<span class=acc>❯</span> <span class=key>${x.k.padEnd(6)}</span> ${esc(typed(x.ask, x.a, t, 34))}${t < done(x.ask, x.a, 34) ? cursor(t) : ''}\n`;
+    if (t >= x.r) h += `  <span class=dim>●</span> ${esc(x.ans)}\n`;
+    (x.det || []).forEach((d, i) => { if (t >= x.r + (i + 1) * DET) h += `    <span class=ok>${esc(d)}</span>\n`; });
+  }
+  s.innerHTML = h.replace(/\n$/, '');
+};
+</script>

@@ -1,0 +1,5 @@
+:root[data-theme=dark]{--bg:#0d1117;--fg:#e6edf3;--dim:#7d8590;--acc:#ff7b72;--ok:#3fb950;--key:#d2a8ff;--str:#a5d6ff}
+:root[data-theme=light]{--bg:#ffffff;--fg:#1f2328;--dim:#656d76;--acc:#cf222e;--ok:#1a7f37;--key:#8250df;--str:#0a3069}
+html,body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 "JetBrains Mono","DejaVu Sans Mono",monospace;overflow:hidden}
+.cur{display:inline-block;width:.55em;height:1.1em;vertical-align:-.15em;background:var(--fg)}
+.dim{color:var(--dim)}.acc{color:var(--acc)}.ok{color:var(--ok)}.key{color:var(--key)}.str{color:var(--str)}
