@@ -1,6 +1,6 @@
 <picture><source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.gif"><img alt="Lucas Aguilar: I build for the web, mostly in Rails. I ship with AI agents. I take ideas to production." src="assets/hero-light.gif"></picture>
 
-Building and maintaining production apps for real businesses, from planning to support.
+Building and maintaining production apps for real businesses, from planning to support.\
 I work in a fast loop with modern AI tools, and I own what ships.
 
 **What I do**
